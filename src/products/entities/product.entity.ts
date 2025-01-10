@@ -1,16 +1,22 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, ManyToOne, Entity, PrimaryGeneratedColumn, JoinColumn} from "typeorm";
+import {User} from "../../users/entities/user.entity";
 
 @Entity ('products')
 export class Product {
 	@PrimaryGeneratedColumn ()
 	id: number;
 	
-	@Column({type: 'varchar', length: 50, nullable: false})
+	@Column({ length: 50, nullable: true})
 	title: string;
 	
-	@Column({type: 'varchar', length: 255, nullable: false})
+	@Column({ nullable: true})
 	description: string;
 	
-	@Column('float')
+	@Column({nullable: true})
 	price: number;
+	
+	@Column('int', {nullable: true})
+	@ManyToOne(() => User, (user: User) => user.id) 
+	@JoinColumn({name: 'user'})
+	user: User;
 }
